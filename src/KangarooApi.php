@@ -25,6 +25,11 @@ class KangarooApi
     private $userAgent = '';
 
     /**
+     * @var array
+     */
+    private $headers = [];
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -37,6 +42,10 @@ class KangarooApi
 
         $this->token = $options['access_token'];
         $this->baseApiUrl = $options['base_api_url'];
+
+        if(isset($options['headers'])) {
+            $this->headers = $options['headers'];
+        }
     }
 
     /**
@@ -67,12 +76,12 @@ class KangarooApi
 
     private function getHeaders()
     {
-        return [
+        return array_merge([
             'Content-Type' => 'application/json',
             'Accept' => $this->apiVersion,
             'Authorization' => 'Bearer ' . $this->token,
             'User-Agent' => $this->userAgent,
-        ];
+        ], $this->headers);
     }
 
     /**
